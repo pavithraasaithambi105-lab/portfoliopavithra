@@ -1,3 +1,4 @@
+import React from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 
@@ -5,21 +6,22 @@ const Skills = () => {
   const skillCategories = [
     {
       category: "Frontend",
-      skills: ["React", "TypeScript", "Tailwind CSS", "HTML/CSS", "JavaScript"],
+      skills: ["React", "TypeScript", "Tailwind CSS"],
     },
     {
       category: "Backend",
-      skills: ["Node.js", "Python", "REST APIs", "SQL", "MongoDB"],
+      skills: ["Node.js", "SQL", "Python"],
     },
     {
       category: "Tools & Others",
-      skills: ["Git", "VS Code", "Linux", "Docker", "Figma"],
+      skills: ["Git", "Docker", "Figma"],
     },
   ];
 
   return (
     <section id="skills" className="py-20 px-4 bg-muted/30">
       <div className="container mx-auto">
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,6 +37,7 @@ const Skills = () => {
           </p>
         </motion.div>
 
+        {/* Skill cards */}
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {skillCategories.map((category, categoryIndex) => (
             <motion.div
@@ -48,20 +51,25 @@ const Skills = () => {
                 <h3 className="text-2xl font-semibold mb-4 text-primary">
                   {category.category}
                 </h3>
-                <div className="space-y-2">
+                <div className="space-y-4">
                   {category.skills.map((skill, skillIndex) => (
                     <motion.div
                       key={skill}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{
-                        duration: 0.3,
+                        duration: 0.5,
                         delay: categoryIndex * 0.2 + skillIndex * 0.1,
                       }}
-                      className="p-3 rounded-md bg-secondary/50 hover:bg-secondary hover:translate-x-2 transition-all duration-300 cursor-default"
+                      className="perspective"
                     >
-                      <span className="text-foreground font-medium">{skill}</span>
+                      <motion.div
+                        whileHover={{ rotateY: 15, rotateX: -10, scale: 1.05 }}
+                        className="p-4 bg-secondary/50 rounded-md shadow-lg text-center transition-transform duration-300 cursor-pointer"
+                      >
+                        <span className="text-foreground font-medium">{skill}</span>
+                      </motion.div>
                     </motion.div>
                   ))}
                 </div>
