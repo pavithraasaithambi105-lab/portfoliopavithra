@@ -63,12 +63,15 @@ const Hero = () => {
             className="flex flex-wrap gap-4 justify-center mb-12"
           >
             <Button
-              variant="glow"
-              size="lg"
-              onClick={() => scrollToSection("projects")}
-            >
-              View Projects
-            </Button>
+  asChild
+  variant="glow"
+  size="lg"
+>
+  <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">
+    Resume
+  </a>
+</Button>
+
             <Button
               variant="outline"
               size="lg"
