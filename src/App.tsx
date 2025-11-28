@@ -8,8 +8,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 
-// ⭐ Global Starfield Background
-import Starfield from "@/components/starifield";
+// ⭐ Correct Global Starfield Background import
+import StarfieldBackground from "@/components/starifield";
 
 const queryClient = new QueryClient();
 
@@ -45,13 +45,13 @@ const App = () => {
         <Toaster />
         <Sonner />
 
-        {/* ⭐ FULL WEBSITE STARFIELD (always in the background) */}
-        <Starfield />
+        {/* ⭐ FULL WEBSITE STARFIELD BACKGROUND */}
+        <StarfieldBackground />
 
         {/* ⭐ COMET CURSOR FOLLOWER */}
         <div id="comet-cursor"></div>
 
-        {/* ⭐ MAIN APP CONTENT ABOVE STARFIELD */}
+        {/* ⭐ MAIN APP CONTENT */}
         <div className="relative z-10">
           <BrowserRouter>
             <Routes>

@@ -106,3 +106,29 @@
     transform: scale(0.2);
   }
 }
+#comet-cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 50;
+}
+
+.comet-trail {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+  pointer-events: none;
+  animation: fadeTrail 0.4s linear forwards;
+}
+
+@keyframes fadeTrail {
+  from { opacity: 0.8; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.2); }
+}

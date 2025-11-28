@@ -1,52 +1,79 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Points, PointMaterial } from "@react-three/drei";
-import * as THREE from "three";
-import { useMemo, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 
-const Stars = () => {
-  const ref = useRef<THREE.Points>(null!);
+// 🌌 DENSE STARFIELD WITH CURSOR PARALLAX ONLY
+export default function StarfieldBackground() {
+  const canvasRef = useRef(null);
 
-  // Generate 2000 stars
-  const positions = useMemo(() => {
-    const arr = new Float32Array(2000 * 3);
-    for (let i = 0; i < 2000 * 3; i++) {
-      arr[i] = (Math.random() - 0.5) * 300;
-    }
-    return arr;
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    let w = (canvas.width = window.innerWidth);
+    let h = (canvas.height = window.innerHeight);
+
+    let mouseX = w / 2;
+    let mouseY = h / 2;
+
+    // ⭐ Create more stars
+    const stars = Array(600) // Increased from 300 to 600
+      .fill()
+      .map(() => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        size: Math.random() * 2,
+        glow: Math.random() * 0.7 + 0.3, // shadow intensity
+      }));
+
+    const draw = () => {
+      // Gradient background
+      const gradient = ctx.createLinearGradient(0, 0, 0, h);
+      gradient.addColorStop(0, "#0d0d1a");
+      gradient.addColorStop(1, "#000000");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, w, h);
+
+      stars.forEach((star) => {
+        // Only move stars based on cursor (parallax)
+        const parallaxX = ((mouseX - w / 2) * star.size) / 20;
+        const parallaxY = ((mouseY - h / 2) * star.size) / 20;
+
+        // Glow shadow
+        ctx.shadowColor = `rgba(255, 255, 255, ${star.glow})`;
+        ctx.shadowBlur = 6;
+
+        ctx.fillStyle = "white";
+        ctx.fillRect(star.x + parallaxX, star.y + parallaxY, star.size, star.size);
+      });
+
+      requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    const handleResize = () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    };
+
+    const handleMouseMove = (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    };
+
+    window.addEventListener("resize", handleResize);
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
-  // Mouse reactive movement
-  useFrame(({ mouse }) => {
-    ref.current.rotation.x = mouse.y * 0.4;
-    ref.current.rotation.y = mouse.x * 0.4;
-  });
-
   return (
-    <Points
-      ref={ref}
-      positions={positions}
-      stride={3}
-      frustumCulled={false}
-    >
-      <PointMaterial
-        color="#00ffff"
-        size={1.2}
-        sizeAttenuation
-        transparent
-      />
-    </Points>
+    <canvas
+      ref={canvasRef}
+      className="fixed top-0 left-0 w-full h-full -z-10"
+      style={{ cursor: "auto", pointerEvents: "none" }}
+    />
   );
-};
-
-const Starfield = () => {
-  return (
-    <Canvas
-      className="fixed inset-0 -z-10 pointer-events-none"
-      camera={{ position: [0, 0, 75], fov: 75 }}
-    >
-      <Stars />
-    </Canvas>
-  );
-};
-
-export default Starfield;
+}
