@@ -2,10 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
+/* ------------------------------
+   THEME + DESIGN SYSTEM (HSL ONLY)
+   ------------------------------ */
 @layer base {
   :root {
     --background: 220 26% 6%;
@@ -41,6 +40,7 @@ All colors MUST be HSL.
 
     --gradient-primary: linear-gradient(135deg, hsl(189 94% 55%), hsl(280 80% 60%));
     --gradient-hero: linear-gradient(180deg, hsl(220 26% 6%) 0%, hsl(220 30% 10%) 100%);
+
     --glow-cyan: 0 0 40px hsl(189 94% 55% / 0.3);
     --glow-purple: 0 0 40px hsl(280 80% 60% / 0.3);
   }
@@ -54,6 +54,7 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    cursor: none; /* Hide default cursor */
   }
 
   .glass {
@@ -71,12 +72,58 @@ All colors MUST be HSL.
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+/* ------------------------------
+   🌈 RAINBOW COMET CURSOR
+   ------------------------------ */
 
-  body {
-    @apply bg-background text-foreground;
+/* MAIN CURSOR */
+#comet-cursor {
+  width: 14px;
+  height: 14px;
+  background: white;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 999999;
+  transform: translate(-50%, -50%);
+  filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px white);
+}
+
+/* RAINBOW TRAIL */
+.comet-trail {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0.9;
+  transform: translate(-50%, -50%);
+  animation: trailFade 0.5s linear forwards;
+
+  /* 🌈 Rainbow gradient */
+  background: conic-gradient(
+    #ff0000,
+    #ff7f00,
+    #ffff00,
+    #00ff00,
+    #0000ff,
+    #4b0082,
+    #8b00ff,
+    #ff0000
+  );
+
+  /* Neon rainbow glow */
+  filter: blur(5px) drop-shadow(0 0 12px #ff00ff) drop-shadow(0 0 18px #00ffff);
+}
+
+/* Fade-out animation */
+@keyframes trailFade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.2);
   }
 }
