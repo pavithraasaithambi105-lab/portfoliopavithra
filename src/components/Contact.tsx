@@ -9,34 +9,33 @@ import { useToast } from "@/hooks/use-toast";
 const Contact = () => {
   const { toast } = useToast();
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Message sent!",
+      description: "Thank you for reaching out. I'll get back to you soon.",
+    });
+  };
+
   const contactInfo = [
     {
       icon: Mail,
       label: "Email",
-      value: "pavithraasaithambi105@gmail.com",
+      value: "your.pavithraasaithambi105@gmail.com",
       href: "mailto:pavithraasaithambi105@gmail.com",
     },
     {
       icon: Phone,
       label: "Phone",
       value: "+91 7358481488",
-      href: "tel:+917358481488",
+      href: "tel:+15551234567",
     },
     {
       icon: MapPin,
       label: "Location",
-      value: "Salem, Tamilnadu, India",
+      value: "Salem,Tamilnadu,Inida",
     },
   ];
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    toast({
-      title: "Message sent!",
-      description: "Thank you for reaching out. I'll get back to you soon.",
-    });
-    e.currentTarget.reset(); // Clear form after submit
-  };
 
   return (
     <section id="contact" className="py-20 px-4 bg-muted/30">
@@ -57,7 +56,6 @@ const Contact = () => {
         </motion.div>
 
         <div className="grid lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-          {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -65,15 +63,9 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
           >
             <Card className="glass p-8">
-              <form
-                onSubmit={handleSubmit}
-                action="https://getform.io/f/avrzekza"
-                method="POST"
-                className="space-y-6"
-              >
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <Input
-                    name="name"
                     placeholder="Your Name"
                     required
                     className="bg-background/50"
@@ -82,7 +74,6 @@ const Contact = () => {
                 <div>
                   <Input
                     type="email"
-                    name="email"
                     placeholder="Your Email"
                     required
                     className="bg-background/50"
@@ -90,7 +81,6 @@ const Contact = () => {
                 </div>
                 <div>
                   <Input
-                    name="subject"
                     placeholder="Subject"
                     required
                     className="bg-background/50"
@@ -98,7 +88,6 @@ const Contact = () => {
                 </div>
                 <div>
                   <Textarea
-                    name="message"
                     placeholder="Your Message"
                     required
                     className="min-h-[150px] bg-background/50"
@@ -111,7 +100,6 @@ const Contact = () => {
             </Card>
           </motion.div>
 
-          {/* Contact Info */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -156,4 +144,4 @@ const Contact = () => {
   );
 };
 
-export default Contact;
+export default Contact;  
