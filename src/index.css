@@ -2,66 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ------------------------------
-   THEME + DESIGN SYSTEM
------------------------------- */
-@layer base {
-  :root {
-    --background: 220 26% 6%;
-    --foreground: 210 40% 98%;
-
-    --card: 220 24% 10%;
-    --border: 220 20% 18%;
-
-    --primary: 189 94% 55%;
-    --glow-cyan: 0 0 40px hsl(189 94% 55% / 0.3);
-    --glow-purple: 0 0 40px hsl(280 80% 60% / 0.3);
-  }
+/* =============================
+   ✅ RESET + GLOBAL BASE
+============================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    cursor: none; /* hide default cursor */
-  }
-
-  .glass {
-    background: hsl(var(--card) / 0.5);
-    backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border) / 0.5);
-  }
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background: #020010; /* dark base behind three.js */
+  color: #ffffff;
+  overflow-x: hidden;
+  cursor: none; /* hide default cursor */
 }
 
-/* ------------------------------
-   COMET CURSOR
------------------------------- */
+/* =============================
+   🌌 MAIN CONTENT LAYER
+============================= */
+.content {
+  position: relative;
+  z-index: 10;
+}
 
-#comet-cursor {
-  width: 14px;
-  height: 14px;
-  background: white;
-  border-radius: 50%;
+/* =============================
+   🟣 NEON CURSOR (STRONG & CLEAN)
+============================= */
+.neon-cursor {
   position: fixed;
-  pointer-events: none;
-  z-index: 999999;
-  transform: translate(-50%, -50%);
-  filter: drop-shadow(0 0 10px white) drop-shadow(0 0 20px white);
-}
-
-.comet-trail {
-  position: fixed;
-  width: 18px;
-  height: 18px;
+  width: 12px;
+  height: 12px;
+  background: #ffffff;
   border-radius: 50%;
   pointer-events: none;
-  opacity: 0.9;
   transform: translate(-50%, -50%);
-  animation: trailFade 0.5s linear forwards;
+  z-index: 99999;
+
+  box-shadow:
+    0 0 8px #ffffff,
+    0 0 18px #a855f7,
+    0 0 32px #6366f1,
+    0 0 48px #22d3ee;
+}
+
+/* =============================
+   ✨ NEON CURSOR TRAIL
+============================= */
+/* =============================
+   🌈 RAINBOW COMET TRAIL
+============================= */
+.cursor-trail {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
 
   background: conic-gradient(
     #ff0000,
@@ -74,24 +75,92 @@
     #ff0000
   );
 
-  filter: blur(5px) drop-shadow(0 0 12px #ff00ff) drop-shadow(0 0 18px #00ffff);
+  filter: blur(12px)
+          drop-shadow(0 0 18px #ff00ff)
+          drop-shadow(0 0 25px #00ffff);
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-@keyframes trailFade {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.2);
-  }
-}
-/* To make 3D flip work */
-.perspective {
-  perspective: 1000px;
+
+/* =============================
+   🧑‍🚀 NEON PROFILE IMAGE
+============================= */
+/*
+  Wrap your image like:
+  <div class="profile-neon">
+     <img src="..." />
+  </div>
+*/
+
+.profile-neon {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  margin: auto;
 }
 
-.backface-hidden {
-  backface-visibility: hidden;
+.profile-neon img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
 }
+
+/* Neon animated ring */
+.profile-neon::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+
+  background: linear-gradient(
+    45deg,
+    #a855f7,
+    #6366f1,
+    #22d3ee,
+    #a855f7
+  );
+
+  filter: blur(14px);
+  opacity: 0.85;
+  z-index: 1;
+
+  animation: neonRotate 6s linear infinite;
+}
+
+@keyframes neonRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =============================
+   💎 OPTIONAL GLASS CARDS
+============================= */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(14px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
+}   
+/* index.css */
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: radial-gradient(circle at top, #0d0d0d, #000000);
+  color: white;
+  font-family: 'Inter', sans-serif;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
