@@ -131,8 +131,7 @@ const App = () => {
     scene.add(nebula);
 
     // Mouse parallax
-    let mouseX = 0,
-      mouseY = 0;
+    let mouseX = 0, mouseY = 0;
     const handleMouse = (e: MouseEvent) => {
       mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
       mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
@@ -143,7 +142,6 @@ const App = () => {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      // Remove rotation of stars and nebula to keep background static
       camera.position.x += (mouseX * 100 - camera.position.x) * 0.02;
       camera.position.y += (-mouseY * 100 - camera.position.y) * 0.02;
       camera.lookAt(scene.position);

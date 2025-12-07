@@ -1,31 +1,31 @@
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github } from "lucide-react";
+import { Github } from "lucide-react";
 
 const Projects = () => {
   const projects = [
     {
-      title: "E-Commerce Platform",
+      title: "Career chatbot",
       description:
-        "Full-stack online shopping platform with user authentication, product management, and payment integration.",
-      tech: ["React", "Node.js", "MongoDB", "Stripe"],
+        "Career Chatbot: Intelligent assistant that helps users explore career paths, get guidance, and access personalized job recommendations.",
+      tech: ["HTML", "Java Script", "CSS", "Python-flask"],
       github: "https://github.com",
       demo: "https://example.com",
     },
     {
-      title: "Task Management App",
+      title: "Focus timer",
       description:
         "Collaborative task tracker with real-time updates, drag-and-drop interface, and team collaboration features.",
-      tech: ["React", "Firebase", "Tailwind CSS"],
+      tech: ["HTML", "CSS", "Java Script"],
       github: "https://github.com",
       demo: "https://example.com",
     },
     {
-      title: "Weather Dashboard",
+      title: "Portfolio",
       description:
         "Interactive weather forecasting application with location-based data visualization and 7-day predictions.",
-      tech: ["TypeScript", "React", "Weather API"],
+      tech: ["TypeScript", "React", "tailwins css"],
       github: "https://github.com",
       demo: "https://example.com",
     },
@@ -91,21 +91,7 @@ const Projects = () => {
                       Code
                     </a>
                   </Button>
-                  <Button
-                    variant="default"
-                    size="sm"
-                    className="flex-1"
-                    asChild
-                  >
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <ExternalLink className="w-4 h-4 mr-2" />
-                      Demo
-                    </a>
-                  </Button>
+                  {/* Demo button removed */}
                 </div>
               </Card>
             </motion.div>
