@@ -1,27 +1,209 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio | Computer Science & Engineering Student</title>
-    <meta name="description" content="Personal portfolio showcasing projects, skills, and experience in Computer Science and Engineering" />
-    <meta name="author" content="CS Engineering Student" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio | Galaxy Background</title>
 
-    <meta property="og:title" content="Portfolio | Computer Science & Engineering Student" />
-    <meta property="og:description" content="Personal portfolio showcasing projects, skills, and experience in Computer Science and Engineering" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-    <script type="module" crossorigin src="/assets/index-CoK52T0E.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-CUbGVh4f.css">
-  </head>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      cursor: none;
+      height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      background: #050505;
+    }
 
-  <body>
-    <div id="root"></div>
-  </body>
+    /* Galaxy container */
+    #bg-3d {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Cursor */
+    #cursor-core {
+      position: fixed;
+      width: 14px;
+      height: 14px;
+      background: white;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 99999;
+      box-shadow:
+        0 0 10px white,
+        0 0 18px #ff00ff,
+        0 0 30px #00eaff,
+        0 0 45px rgba(255,255,255,0.9);
+    }
+
+    .rainbow-trail {
+      position: fixed;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      background: conic-gradient(
+        #ff0000,#ff7f00,#ffff00,#00ff00,#0000ff,#4b0082,#8b00ff,#ff0000
+      );
+      filter: blur(10px)
+        drop-shadow(0 0 12px #ff00ff)
+        drop-shadow(0 0 18px #00ffff);
+    }
+
+    /* Portfolio content */
+    #root {
+      position: relative;
+      z-index: 1;
+      color: white;
+      padding: 50px;
+    }
+  </style>
+  <script type="module" crossorigin src="/assets/index-CFJ838yg.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/index-Z1qRLtmV.css">
+</head>
+
+<body>
+
+  <!-- Galaxy Background -->
+  <div id="bg-3d"></div>
+
+  <!-- Cursor -->
+  <div id="cursor-core"></div>
+
+  <!-- Content -->
+  <div id="root">
+    <h1>My Portfolio</h1>
+    <p>Scroll down to see more content.</p>
+    <div style="height:2000px;"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.162.0/build/three.min.js"></script>
+
+  <script>
+    /* ========== GALAXY BACKGROUND ONLY ========== */
+
+    const container = document.getElementById("bg-3d");
+
+    const scene = new THREE.Scene();
+
+    const camera = new THREE.PerspectiveCamera(
+      75,
+      innerWidth / innerHeight,
+      0.1,
+      1000
+    );
+    camera.position.z = 70;
+
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: true
+    });
+    renderer.setSize(innerWidth, innerHeight);
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    /* Galaxy parameters */
+    const STAR_COUNT = 22000;
+    const BRANCHES = 4;
+    const RADIUS = 60;
+    const SPIN = 1.1;
+
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(STAR_COUNT * 3);
+    const colors = new Float32Array(STAR_COUNT * 3);
+
+    const colorInside = new THREE.Color("#ffffff");
+    const colorOutside = new THREE.Color("#6366f1");
+
+    for (let i = 0; i < STAR_COUNT; i++) {
+      const i3 = i * 3;
+
+      const r = Math.random() * RADIUS;
+      const branchAngle = (i % BRANCHES) / BRANCHES * Math.PI * 2;
+      const spinAngle = r * SPIN;
+
+      positions[i3]     = Math.cos(branchAngle + spinAngle) * r;
+      positions[i3 + 1] = (Math.random() - 0.5) * 6;
+      positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * r;
+
+      const mixedColor = colorInside.clone();
+      mixedColor.lerp(colorOutside, r / RADIUS);
+
+      colors[i3]     = mixedColor.r;
+      colors[i3 + 1] = mixedColor.g;
+      colors[i3 + 2] = mixedColor.b;
+    }
+
+    geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
+    const material = new THREE.PointsMaterial({
+      size: 0.45,
+      vertexColors: true,
+      depthWrite: false,
+      blending: THREE.AdditiveBlending
+    });
+
+    const galaxy = new THREE.Points(geometry, material);
+    scene.add(galaxy);
+
+    /* Animation loop */
+    function animate() {
+      requestAnimationFrame(animate);
+      galaxy.rotation.y += 0.00025;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    /* Resize */
+    addEventListener("resize", () => {
+      camera.aspect = innerWidth / innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+
+    /* ========== COMET CURSOR (UNCHANGED) ========== */
+    const core = document.getElementById("cursor-core");
+    const trails = [];
+    const positionsTrail = [];
+    const maxTrails = 12;
+
+    for (let i = 0; i < maxTrails; i++) {
+      const t = document.createElement("div");
+      t.className = "rainbow-trail";
+      document.body.appendChild(t);
+      trails.push(t);
+    }
+
+    addEventListener("mousemove", e => {
+      const x = e.clientX;
+      const y = e.clientY;
+
+      core.style.left = x + "px";
+      core.style.top = y + "px";
+
+      positionsTrail.push({ x, y });
+      if (positionsTrail.length > maxTrails) positionsTrail.shift();
+
+      trails.forEach((t, i) => {
+        const p = positionsTrail[i] || positionsTrail[0];
+        t.style.left = p.x + "px";
+        t.style.top = p.y + "px";
+        t.style.opacity = (i + 1) / maxTrails;
+        t.style.transform =
+          `translate(-50%,-50%) scale(${(i + 1) / maxTrails})`;
+      });
+    });
+  </script>
+
+</body>
 </html>
