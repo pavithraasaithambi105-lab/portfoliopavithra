@@ -3,8 +3,11 @@ import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
 
-// https://vitejs.dev/config/
+// Use your actual GitHub repo name
+const repoName = "portfoliopavithra";
+
 export default defineConfig(({ mode }) => ({
+  base: `/${repoName}/`, // ✅ Must match your repo name
   server: {
     host: "::",
     port: 8080,

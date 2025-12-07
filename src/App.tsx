@@ -34,7 +34,7 @@ const App = () => {
   }, []);
 
   /* -----------------------------
-     🌌 Realistic Galaxy Background
+     🌌 Static Galaxy Background
   ----------------------------- */
   useEffect(() => {
     if (!bgRef.current) return;
@@ -54,7 +54,7 @@ const App = () => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     bgRef.current.appendChild(renderer.domElement);
 
-    // Stars - Spiral galaxy
+    // Stars
     const starCount = 7000;
     const starGeometry = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
@@ -62,10 +62,10 @@ const App = () => {
 
     for (let i = 0; i < starCount; i++) {
       const t = Math.random() * Math.PI * 2;
-      const radius = Math.pow(Math.random(), 1.5) * 800; // denser near center
+      const radius = Math.pow(Math.random(), 1.5) * 800;
       const x = Math.cos(t) * radius + (Math.random() - 0.5) * 20;
       const y = Math.sin(t) * radius + (Math.random() - 0.5) * 20;
-      const z = (Math.random() - 0.5) * 200; // thin disk
+      const z = (Math.random() - 0.5) * 200;
 
       starPositions[i * 3] = x;
       starPositions[i * 3 + 1] = y;
@@ -143,9 +143,7 @@ const App = () => {
     const animate = () => {
       requestAnimationFrame(animate);
 
-      stars.rotation.y += 0.0003;
-      nebula.rotation.y += 0.0001;
-
+      // Remove rotation of stars and nebula to keep background static
       camera.position.x += (mouseX * 100 - camera.position.x) * 0.02;
       camera.position.y += (-mouseY * 100 - camera.position.y) * 0.02;
       camera.lookAt(scene.position);
@@ -171,13 +169,11 @@ const App = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-x-hidden">
-      {/* Galaxy background */}
       <div
         ref={bgRef}
         className="fixed inset-0 w-full h-full -z-10 pointer-events-none"
       />
 
-      {/* Neon comet cursor */}
       <div
         id="cursor-main"
         className="fixed w-4 h-4 rounded-full pointer-events-none z-[99999]"
@@ -189,7 +185,6 @@ const App = () => {
         }}
       />
 
-      {/* Main content */}
       <main className="relative z-10 flex flex-col gap-20 px-4 md:px-10 py-10 text-white">
         <Hero />
         <About />

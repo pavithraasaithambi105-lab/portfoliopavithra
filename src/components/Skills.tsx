@@ -1,6 +1,19 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
+import {
+  FaReact,
+  FaNodeJs,
+  FaGit,
+  FaDocker,
+  FaFigma,
+} from "react-icons/fa";
+import {
+  SiTypescript,
+  SiTailwindcss,
+  SiPython,
+  SiMysql,
+} from "react-icons/si";
 
 const Skills = () => {
   const skillCategories = [
@@ -18,15 +31,27 @@ const Skills = () => {
     },
   ];
 
+  const skillIcons: Record<string, JSX.Element> = {
+    React: <FaReact size={44} className="text-cyan-400" />,
+    "TypeScript": <SiTypescript size={44} className="text-blue-500" />,
+    "Tailwind CSS": <SiTailwindcss size={44} className="text-sky-400" />,
+    "Node.js": <FaNodeJs size={44} className="text-green-500" />,
+    SQL: <SiMysql size={44} className="text-blue-400" />,
+    Python: <SiPython size={44} className="text-yellow-400" />,
+    Git: <FaGit size={44} className="text-orange-500" />,
+    Docker: <FaDocker size={44} className="text-sky-500" />,
+    Figma: <FaFigma size={44} className="text-pink-500" />,
+  };
+
   // Fast floating and rotation
   const floatAndRotate = {
     animate: {
-      rotateX: [0, 10, -10, 0], // subtle rotation
+      rotateX: [0, 10, -10, 0],
       rotateY: [0, 10, -10, 0],
       rotateZ: [0, 5, -5, 0],
       y: [0, -5, 0],
       transition: {
-        duration: 2.5, // fastest rotation
+        duration: 2.5,
         repeat: Infinity,
         ease: "easeInOut",
       },
@@ -85,11 +110,10 @@ const Skills = () => {
                   >
                     {/* 3D Cube */}
                     <div className="relative w-28 h-28 bg-secondary/50 backdrop-blur-xl border border-white/20 rounded-lg shadow-xl flex items-center justify-center neon-skill">
-                      {/* Reflection */}
                       <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-lg pointer-events-none"></div>
-                      <span className="text-white font-semibold text-center z-10">
-                        {skill}
-                      </span>
+                      <div className="z-10">
+                        {skillIcons[skill]}
+                      </div>
                     </div>
                   </motion.div>
                 ))}
@@ -101,15 +125,6 @@ const Skills = () => {
 
       {/* Neon Effect */}
       <style jsx>{`
-        .neon-skill span {
-          text-shadow:
-            0 0 5px #a78bfa,
-            0 0 10px #a78bfa,
-            0 0 20px #a78bfa,
-            0 0 30px #8b5cf6,
-            0 0 40px #8b5cf6,
-            0 0 50px #7c3aed;
-        }
         .neon-skill {
           box-shadow:
             0 0 10px rgba(167,139,250,0.7),

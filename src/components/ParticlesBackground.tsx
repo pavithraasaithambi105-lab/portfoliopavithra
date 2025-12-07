@@ -4,8 +4,19 @@ import { Canvas } from "@react-three/fiber";
 
 const ParticlesBackground = () => {
   return (
-    <Canvas className="absolute inset-0 -z-20">
-      <Stars radius={100} depth={50} count={500} factor={4} fade speed={1} />
+    <Canvas
+      className="absolute inset-0 -z-20"
+      camera={{ position: [0, 0, 100], fov: 75 }}
+    >
+      {/* Stars: radius controls spread, depth controls 3D depth, speed controls star drift */}
+      <Stars
+        radius={150}      // spread of stars
+        depth={50}        // how far stars extend in Z
+        count={800}       // number of stars
+        factor={4}        // star size scaling
+        fade={true}       // stars fade toward edges
+        speed={0.2}       // slow movement for subtle animation
+      />
     </Canvas>
   );
 };
