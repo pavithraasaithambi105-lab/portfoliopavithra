@@ -151,7 +151,18 @@ body {
   border-radius: 16px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
-}   
+}  
+/* Mobile first */
+.container {
+  padding: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 4rem;
+  }
+}
+
 /* index.css */
 body {
   margin: 0;
