@@ -22,17 +22,6 @@ const About = () => {
     },
   ];
 
-  const floatAnimation = {
-    animate: {
-      y: [0, -10, 0],
-      transition: {
-        duration: 3,
-        repeat: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  };
-
   const fullText = "About Me";
   const [displayedText, setDisplayedText] = useState("");
   const [index, setIndex] = useState(0);
@@ -46,46 +35,61 @@ const About = () => {
     return () => clearInterval(interval);
   }, [index]);
 
+  // Wave Motion for cards (unique per card)
+  const waveMotion = (delay: number) => ({
+    animate: {
+      y: [0, -12, 0],
+      rotate: [0, 3, -3, 0],
+      transition: {
+        duration: 4 + delay,
+        repeat: Infinity,
+        ease: "easeInOut",
+      },
+    },
+  });
+
   return (
-    <section
-      id="about"
-      className="py-20 px-4 bg-transparent scroll-mt-28"
-    >
+    <section id="about" className="py-20 px-4 bg-transparent scroll-mt-28">
       <div className="container mx-auto">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-mono text-primary neon-text">
-            {displayedText}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-mono text-primary neon-text flex justify-center flex-wrap">
+            {displayedText.split("").map((char, idx) => (
+              <motion.span
+                key={idx}
+                initial={{ y: -20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: idx * 0.05, type: "spring", stiffness: 200 }}
+              >
+                {char}
+              </motion.span>
+            ))}
           </h2>
-
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-muted-foreground text-lg max-w-2xl mx-auto"
+          >
             Pursuing B.E. in Computer Science and Engineering, passionate about building
             elegant solutions to complex problems and creating impactful technology.
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
 
         {/* Feature Cards */}
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              {...floatAnimation}
+              {...waveMotion(index * 0.5)}
             >
               <motion.div
                 whileHover={{
+                  rotateX: 5,
+                  rotateY: 5,
                   scale: 1.05,
-                  boxShadow:
-                    "0 0 30px rgba(167,139,250,0.8), 0 0 60px rgba(100,100,255,0.5)",
+                  boxShadow: "0 0 40px rgba(167,139,250,0.8), 0 0 60px rgba(100,100,255,0.5)",
                 }}
                 className="glass p-6 h-full rounded-xl cursor-pointer relative overflow-hidden"
               >
@@ -106,4 +110,3 @@ const About = () => {
 };
 
 export default About;
-
