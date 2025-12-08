@@ -17,18 +17,9 @@ import {
 
 const Skills = () => {
   const skillCategories = [
-    {
-      category: "Frontend",
-      skills: ["React", "TypeScript", "Tailwind CSS"],
-    },
-    {
-      category: "Backend",
-      skills: ["Node.js", "SQL", "Python"],
-    },
-    {
-      category: "Tools & Others",
-      skills: ["Git", "Docker", "Figma"],
-    },
+    { category: "Frontend", skills: ["React", "TypeScript", "Tailwind CSS"] },
+    { category: "Backend", skills: ["Node.js", "SQL", "Python"] },
+    { category: "Tools & Others", skills: ["Git", "Docker", "Figma"] },
   ];
 
   const skillIcons: Record<string, JSX.Element> = {
@@ -43,15 +34,22 @@ const Skills = () => {
     Figma: <FaFigma size={44} className="text-pink-500" />,
   };
 
-  // Fast floating and rotation
-  const floatAndRotate = {
+  // Variants for entrance animations
+  const animationVariants = [
+    { hidden: { opacity: 0, y: 60 }, visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 150, damping: 20, duration: 1.2 } } },
+    { hidden: { opacity: 0, x: -60 }, visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 150, damping: 20, duration: 1.2 } } },
+    { hidden: { opacity: 0, x: 60 }, visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 150, damping: 20, duration: 1.2 } } },
+    { hidden: { opacity: 0, scale: 0.5 }, visible: { opacity: 1, scale: 1, transition: { type: "spring", stiffness: 150, damping: 20, duration: 1.2 } } },
+    { hidden: { opacity: 0, rotateY: 90 }, visible: { opacity: 1, rotateY: 0, transition: { type: "spring", stiffness: 150, damping: 20, duration: 1.2 } } },
+  ];
+
+  // Floating/bobbing effect
+  const floatAnimate = {
     animate: {
-      rotateX: [0, 10, -10, 0],
-      rotateY: [0, 10, -10, 0],
-      rotateZ: [0, 5, -5, 0],
-      y: [0, -5, 0],
+      y: [0, -6, 0],
+      rotate: [0, 3, -3, 0],
       transition: {
-        duration: 2.5,
+        duration: 4,
         repeat: Infinity,
         ease: "easeInOut",
       },
@@ -80,7 +78,7 @@ const Skills = () => {
 
         {/* Skill Cards */}
         <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto">
-          {skillCategories.map((category, catIndex) => (
+          {skillCategories.map((category) => (
             <Card
               key={category.category}
               className="glass p-6 relative overflow-hidden h-full"
@@ -90,30 +88,26 @@ const Skills = () => {
               </h3>
 
               <div className="relative flex flex-wrap justify-center items-center gap-6 h-56">
-                {category.skills.map((skill, skillIndex) => (
+                {category.skills.map((skill, index) => (
                   <motion.div
                     key={skill}
-                    className="relative cursor-pointer"
-                    {...floatAndRotate}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    variants={animationVariants[index % animationVariants.length]}
+                    initial="hidden"
+                    whileInView="visible"
                     viewport={{ once: true }}
-                    transition={{
-                      duration: 0.6,
-                      delay: catIndex * 0.2 + skillIndex * 0.1,
-                    }}
                     whileHover={{
-                      scale: 1.2,
+                      scale: 1.25,
+                      rotate: 5,
+                      y: -6,
                       boxShadow:
-                        "0 0 35px rgba(167,139,250,0.9), 0 0 60px rgba(100,100,255,0.7)",
+                        "0 0 40px rgba(167,139,250,0.9), 0 0 70px rgba(100,100,255,0.7)",
                     }}
+                    {...floatAnimate}
+                    className="relative cursor-pointer"
                   >
-                    {/* 3D Cube */}
                     <div className="relative w-28 h-28 bg-secondary/50 backdrop-blur-xl border border-white/20 rounded-lg shadow-xl flex items-center justify-center neon-skill">
                       <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent rounded-lg pointer-events-none"></div>
-                      <div className="z-10">
-                        {skillIcons[skill]}
-                      </div>
+                      <div className="z-10">{skillIcons[skill]}</div>
                     </div>
                   </motion.div>
                 ))}
@@ -123,13 +117,14 @@ const Skills = () => {
         </div>
       </div>
 
-      {/* Neon Effect */}
+      {/* Neon Glow */}
       <style jsx>{`
         .neon-skill {
           box-shadow:
-            0 0 10px rgba(167,139,250,0.7),
-            0 0 20px rgba(167,139,250,0.5),
-            0 0 30px rgba(167,139,250,0.3);
+            0 0 15px rgba(167,139,250,0.7),
+            0 0 30px rgba(167,139,250,0.5),
+            0 0 50px rgba(167,139,250,0.3);
+          transition: box-shadow 0.3s ease-in-out;
         }
       `}</style>
     </section>
