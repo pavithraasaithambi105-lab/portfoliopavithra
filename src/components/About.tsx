@@ -41,13 +41,16 @@ const About = () => {
     const interval = setInterval(() => {
       setDisplayedText(fullText.slice(0, index + 1));
       setIndex((prev) => (prev + 1 > fullText.length ? 0 : prev + 1));
-    }, 400); // slower typing speed (400ms per letter)
+    }, 400);
 
     return () => clearInterval(interval);
   }, [index]);
 
   return (
-    <section id="about" className="py-20 px-4 bg-transparent">
+    <section
+      id="about"
+      className="py-20 px-4 bg-transparent scroll-mt-28"
+    >
       <div className="container mx-auto">
         {/* Section Header */}
         <motion.div
@@ -61,7 +64,6 @@ const About = () => {
             {displayedText}
           </h2>
 
-          {/* Static paragraph */}
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Pursuing B.E. in Computer Science and Engineering, passionate about building
             elegant solutions to complex problems and creating impactful technology.
@@ -90,7 +92,9 @@ const About = () => {
                 <div className="mb-4 p-3 rounded-lg bg-primary/20 w-fit shadow-lg">
                   <feature.icon className="w-8 h-8 text-primary glow-icon" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2 text-white">{feature.title}</h3>
+                <h3 className="text-xl font-semibold mb-2 text-white">
+                  {feature.title}
+                </h3>
                 <p className="text-muted-foreground">{feature.description}</p>
               </motion.div>
             </motion.div>
@@ -102,3 +106,4 @@ const About = () => {
 };
 
 export default About;
+

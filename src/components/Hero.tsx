@@ -3,10 +3,6 @@ import profile from "../assets/profile.jpg";
 import { FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaNodeJs, FaPython } from "react-icons/fa";
 import { SiTailwindcss, SiDocker, SiFigma } from "react-icons/si";
 
-interface HeroProps {
-  mobileView?: boolean;
-}
-
 const quotes = [
   "Life is what happens when you're busy making other plans.",
   "The purpose of our lives is to be happy.",
@@ -15,8 +11,9 @@ const quotes = [
   "Do what you can, with what you have, where you are.",
 ];
 
-const Hero: React.FC<HeroProps> = ({ mobileView = false }) => {
+const Hero = () => {
   const [flipped, setFlipped] = useState(false);
+  const [mobileView, setMobileView] = useState(false);
 
   const handleClick = () => setFlipped(!flipped);
 
@@ -25,25 +22,24 @@ const Hero: React.FC<HeroProps> = ({ mobileView = false }) => {
     if (element) element.scrollIntoView({ behavior: "smooth" });
   };
 
-  const containerClasses = mobileView
-    ? "relative flex flex-col items-center min-h-screen px-4 bg-transparent"
-    : "relative flex flex-row items-center min-h-screen px-16 bg-transparent";
-
-  const leftMargin = mobileView ? "mb-8" : "mr-16"; // moved slightly more left
-
   return (
-    <section className={containerClasses}>
+    <section className="relative flex flex-col md:flex-row items-center min-h-screen px-4 md:px-16 bg-transparent">
+
+      {/* Mobile toggle button */}
+      <button
+        className="absolute top-4 right-4 md:hidden px-3 py-1 rounded-full bg-indigo-500 text-white text-sm font-semibold z-50"
+        onClick={() => setMobileView(!mobileView)}
+      >
+        Toggle Mobile View
+      </button>
+
       {/* Left Side - Profile */}
-      <div className={`flex flex-col items-center justify-center ${leftMargin}`}>
+      <div className={`flex flex-col items-center justify-center mb-8 md:mr-12 ${mobileView ? "order-2" : ""}`}>
         <div
           className="relative w-64 h-64 cursor-pointer perspective hover:scale-105 transition-transform duration-500"
           onClick={handleClick}
         >
-          <div
-            className={`relative w-full h-full duration-700 transform-style-preserve-3d transition-transform ${
-              flipped ? "rotate-y-180" : ""
-            }`}
-          >
+          <div className={`relative w-full h-full duration-700 transform-style-preserve-3d transition-transform ${flipped ? "rotate-y-180" : ""}`}>
             <div className="absolute w-full h-full rounded-full overflow-hidden shadow-2xl backface-hidden flex items-center justify-center">
               <div className="absolute -inset-6 rounded-full bg-purple-500/20 blur-3xl animate-pulse"></div>
               <div className="absolute -inset-8 rounded-full bg-pink-400/20 blur-4xl animate-pulse"></div>
@@ -72,15 +68,16 @@ const Hero: React.FC<HeroProps> = ({ mobileView = false }) => {
       </div>
 
       {/* Center Content */}
-      <div className={`flex flex-col justify-center max-w-xl ${mobileView ? "items-center text-center mt-6" : ""}`}>
+      <div className={`flex flex-col justify-center max-w-xl ${mobileView ? "order-1" : ""} md:ml-[-40px]`}>
         <h1 className="text-5xl md:text-7xl font-bold mb-3 text-white text-shadow-xl animate-pulse font-hero">
-          Pavithra A
+          PAVITHRA A
         </h1>
+
         <p className="text-xl md:text-2xl mb-6 text-gray-300 text-shadow-sm">
           Frontend Developer | React Enthusiast
         </p>
 
-        <div className={`flex gap-4 ${mobileView ? "flex-col items-center" : ""}`}>
+        <div className="flex gap-4 flex-wrap">
           <a
             href="/resume.pdf"
             target="_blank"
@@ -100,21 +97,22 @@ const Hero: React.FC<HeroProps> = ({ mobileView = false }) => {
       </div>
 
       {/* Right Side - Two Circles of Icons */}
-      <div className={`absolute ${mobileView ? "right-1/2 top-[90%] -translate-x-1/2" : "right-16 top-1/2 -translate-y-1/2"}`}>
-        <div className="relative w-64 h-64">
+      <div className={`absolute ${mobileView ? "hidden" : "right-12 top-1/2 -translate-y-1/2"}`}>
+        <div className="relative w-72 h-72">
+
           {/* Inner Circle */}
           <div className="absolute inset-0 animate-spin-super-slow">
             {[
-              { icon: <FaReact size={44} />, angle: 0, color: "text-cyan-400" },
-              { icon: <FaJsSquare size={42} />, angle: 72, color: "text-yellow-400" },
-              { icon: <FaHtml5 size={42} />, angle: 144, color: "text-orange-500" },
-              { icon: <FaCss3Alt size={42} />, angle: 216, color: "text-blue-500" },
-              { icon: <SiTailwindcss size={42} />, angle: 288, color: "text-sky-400" },
+              { icon: <FaReact size={48} />, angle: 0, color: "text-cyan-400" },
+              { icon: <FaJsSquare size={46} />, angle: 72, color: "text-yellow-400" },
+              { icon: <FaHtml5 size={46} />, angle: 144, color: "text-orange-500" },
+              { icon: <FaCss3Alt size={46} />, angle: 216, color: "text-blue-500" },
+              { icon: <SiTailwindcss size={46} />, angle: 288, color: "text-sky-400" },
             ].map((item, index) => (
               <div
                 key={index}
                 className="absolute inset-0 flex items-center justify-center"
-                style={{ transform: `rotate(${item.angle}deg) translateY(-80px)` }}
+                style={{ transform: `rotate(${item.angle}deg) translateY(-100px)` }}
               >
                 <div className={`tech-icon ${item.color}`} style={{ transform: `rotate(-${item.angle}deg)` }}>
                   {item.icon}
@@ -123,20 +121,20 @@ const Hero: React.FC<HeroProps> = ({ mobileView = false }) => {
             ))}
           </div>
 
-          {/* Outer Circle with increased distance */}
+          {/* Outer Circle */}
           <div className="absolute inset-0 animate-spin-super-slow-reverse">
             {[
-              { icon: <FaNodeJs size={40} />, angle: 0, color: "text-green-500" },
-              { icon: <FaPython size={40} />, angle: 60, color: "text-yellow-300" },
-              { icon: <SiDocker size={40} />, angle: 120, color: "text-blue-400" },
-              { icon: <SiFigma size={40} />, angle: 180, color: "text-pink-400" },
-              { icon: <FaReact size={40} />, angle: 240, color: "text-cyan-300" },
-              { icon: <SiTailwindcss size={40} />, angle: 300, color: "text-sky-300" },
+              { icon: <FaNodeJs size={44} />, angle: 0, color: "text-green-500" },
+              { icon: <FaPython size={44} />, angle: 60, color: "text-yellow-300" },
+              { icon: <SiDocker size={44} />, angle: 120, color: "text-blue-400" },
+              { icon: <SiFigma size={44} />, angle: 180, color: "text-pink-400" },
+              { icon: <FaReact size={44} />, angle: 240, color: "text-cyan-300" },
+              { icon: <SiTailwindcss size={44} />, angle: 300, color: "text-sky-300" },
             ].map((item, index) => (
               <div
                 key={index}
                 className="absolute inset-0 flex items-center justify-center"
-                style={{ transform: `rotate(${item.angle}deg) translateY(-160px)` }} // increased distance from inner circle
+                style={{ transform: `rotate(${item.angle}deg) translateY(-190px)` }} // Increased distance
               >
                 <div className={`tech-icon ${item.color}`} style={{ transform: `rotate(-${item.angle}deg)` }}>
                   {item.icon}
@@ -144,6 +142,7 @@ const Hero: React.FC<HeroProps> = ({ mobileView = false }) => {
               </div>
             ))}
           </div>
+
         </div>
       </div>
 
